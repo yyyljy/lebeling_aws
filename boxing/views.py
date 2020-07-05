@@ -11,7 +11,7 @@ def boxing(request):
 def tag(request):
     image_pk = random.choice(ImageUserTagBox.objects.filter(box_id__isnull=True)).image_id 
     image = get_object_or_404(Image, pk=image_pk)
-    taglist = image.tags.annotate(tag_count=Sum('name')).order_by('-tag_count')
+    taglist = image.tags.annotate(tag_count=Sum('name')).order_by('-tag_count')[:5]
     context = {
         'image' : image,
         'taglist' : taglist

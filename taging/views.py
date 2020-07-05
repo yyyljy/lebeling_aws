@@ -14,7 +14,8 @@ from django.db.models import Count, Sum
 def images(request):
     image = Image.objects.order_by('?').first()
     context = {
-        'image' : image.image.url,
+        #'image' : image.image.url,
+        'image' : image.image_thumbnail.url,
         'image_pk' : image.pk
     }
     return render(request, 'taging/images.html',context)

@@ -94,13 +94,13 @@
                 {% for k,v in ranking.items %}
                 <tr>
                     {% if forloop.counter == 1  %}
-                    <td style="padding-right: 30px;"><img src="{% static 'ranking/crown.png' %}" alt="" width="30rem" style="padding: 0px;margin: 0px;"></td>
+                    <td ><img src="{% static 'ranking/crown.png' %}" alt="" width="30rem" style="padding: 0px;margin: 0px;"></td>
                     {% else %}
-                    <td style="padding-right: 30px;">{{ forloop.counter }}</td>
+                    <td >{{ forloop.counter }}</td>
                     {% endif %}
                     
                     <td style>{{ k }}</td>
-                    <td style="color: yellow; padding-left: 40px;" >{{ v }}</td>
+                    <td style="color: yellow;" >{{ v }}</td>
                 </tr>
                 
                 {% endfor %}

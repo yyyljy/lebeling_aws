@@ -18,6 +18,10 @@
              display: inline-block;
              background-repeat: no-repeat;
              background-size: contain;
+            width: auto;
+            height: auto;
+            max-width: 600px !important;
+            max-height: 400px !important;
          }
          .p-button {
             margin-top: 0.5rem;
@@ -55,6 +59,7 @@
             font: 24px/24px 'Black Han Sans', sans-serif;
             color: #f80;
             text-transform: uppercase;
+            text-align: center;
         }
 
         span{
@@ -75,10 +80,10 @@
                 <button class="freebtn sub" type="button" id="add-tag">태그 추가</button>
                 <button class="freebtn" type="submit">제출</button>
             </p>
-            <span style="margin-bottom: 1rem;">
+            <p style="margin-bottom: 1rem;">
                 <input id="tag-input-1" type="text" name="tag" required>
                 <a id="deltag1" value="tag1">삭제</a>
-            </span>
+            </p>
         </form>
     </div>
     <div class="typowriter">
@@ -101,7 +106,7 @@
             const len = document.querySelectorAll('input').length
             if(len <= 4){
                 const inputform  = document.querySelector('#inputform')
-                const pTag = document.createElement('span')
+                const pTag = document.createElement('p')
                 const inputTag = document.createElement('input')
                 inputTag.type="text"
                 inputTag.required = true
