@@ -133,8 +133,13 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/' # 이미지 불러오는 경로
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # 이미지 저장 경로
 
-# STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 
 AUTH_USER_MODEL = 'accounts.User'
 
 RANDOM_IMAGE_DIR = 'images/static/images/'
+
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+ALLOWED_HOSTS = [
+    '.compute.amazonaws.com',
+    '*',
+]
