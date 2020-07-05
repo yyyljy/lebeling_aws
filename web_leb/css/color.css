@@ -1,0 +1,12 @@
+:root{
+    --main-blue: #070b28ff;
+    --sub-blue: #3c4d9fff;
+    --white: #ffffffff;
+    --red-munsell: #ee2f46ff;
+    --yellow-pantone: #fae100ff;
+    --princeton-orange: #f67a1fff;
+    --electric-purple: #bc2cddff;
+}
+body{
+    background-color: var(--main-blue);
+}

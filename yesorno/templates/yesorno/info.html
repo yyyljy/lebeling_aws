@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static%}
+{% block head %}
+    <style>
+        #canvas {
+            border:5px solid;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+        li {
+            margin-bottom: 1rem;
+        }
+        ol{
+            text-align: left;
+        }
+        p{
+            margin-left: 1rem;
+        }
+        h3{
+            padding-top: 1rem;
+        }
+        .mgtop{
+            margin-top: 3rem;
+        }
+    </style>
+        <link rel="stylesheet" href="{% static 'mainpage/css/mainpage.css' %}">
+{% endblock %}
+{% block body %}
+<div class="content">
+<h1 class="retro txtcenter">YES OR NO</h1>
+<div class="row mgtop">
+    <div class="col-sm-2">
+        <h3>--HOW TO PLAY--</h3>
+        <ol>
+            <li>오렌지 테두리 박스 확인</li>
+            <li>이미지 하단의 태그 확인</li>
+            <li>IF 박스 == 태그:</li>
+            <p>YES! 버튼 클릭</p>
+            <li>ELSE:</li>
+            <p>NO! 버튼 클릭</p>
+        </ol>
+    </div>
+    <div class="col-sm-8">
+        <canvas id="canvas" width="600" height="400" style="background-image: url({{ image.image.image_thumbnail.url }})">
+            이 브라우저는 캔버스를 지원하지 않습니다.
+        </canvas>
+        <h3 class="retro">{{ image.tag.name }}</h2>
+    </div>
+    <div class="col-sm-2">
+        <h3></h3>
+    </div>
+</div>
+<div class="txtcenter">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3">
+            <div class='wrapper'>
+                <form action="{% url 'yesorno:rightobj'%}" method="POST">
+                    {% csrf_token %}
+                <input name="image_pk" type="text" style="display: none;" value="{{image.pk}}">
+                <div role='button' class='retro-btn danger'>
+                <button class='btn btntest' type="submit">
+                    <span class='btn-inner'>
+                    <span class='content-wrapper'>
+                        <span class='btn-content'>
+                        <span class='btn-content-inner' label="">
+                            <h3 class="retro middle-size-font">YES!</h3>
+                            <h3 class="retro middle-size-font">RIGHT!</h3>
+                        </span>
+                        </span>
+                    </span>
+                    </span>
+                </button>
+                </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class='wrapper'>
+                <form action="{% url 'yesorno:wrongobj' %}" method="POST">
+                    {% csrf_token %}
+                <input name="image_pk" type="text" style="display: none;" value="{{image.pk}}">
+                <div role='button' class='retro-btn success'>
+                  <button class='btn btntest'> 
+                    <span class='btn-inner'>
+                      <span class='content-wrapper'>
+                        <span class='btn-content'>
+                          <span class='btn-content-inner' label="">
+                            <h3 class="retro middle-size-font">NO!</h3>
+                            <h3 class="retro middle-size-font">WRONG!</h3>
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                  </button>
+                </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+        </form>
+    </div>
+</div>
+</div>
+<script>
+    var canvas;
+    var ctx;
+    var arRectangle = new Array();
+    var color;               // 현재 색상
+    var drawing;                // 그리고 있는 중인가
+    var moving = -1;              // 이동중인 도형 첨자
+    var arrTagPosition = new Array();
+    var TagPosition;
+    const sx = {{ image.box.lefttopx }}
+    const sy = {{ image.box.lefttopy }}
+    const ex = {{ image.box.rightbotx }}
+    const ey = {{ image.box.rightboty }}
+    
+    // 사각형 생성자
+    function Rectangle(sx, sy, ex, ey, color) {
+        this.sx = sx;
+        this.sy = sy;
+        this.ex = ex;
+        this.ey = ey;
+        this.color = color;
+    }
+    // x, y 위치의 사각형 찾음. 없으면 -1
+    function getRectangle(x, y) {
+        for (var i = 0;i < arRectangle.length;i++) {
+            var rect = arRectangle[i];
+            if (x > rect.sx && x < rect.ex && y > rect.sy && y < rect.ey) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // 화면 지우고 모든 도형을 순서대로 다 그림
+    function drawRects() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (var i = 0;i < arRectangle.length;i++) {
+            var r = arRectangle[i];
+            ctx.fillStyle = r.color;
+            ctx.fillRect(r.sx, r.sy, r.ex-r.sx, r.ey-r.sy);
+            ctx.strokeRect(r.sx, r.sy, r.ex-r.sx, r.ey-r.sy);
+        }
+    }
+
+    window.onload = function() {
+        canvas = document.getElementById("canvas");
+        if (canvas == null || canvas.getContext == null) return;
+        ctx = canvas.getContext("2d");
+        ctx.strokeStyle = "#f80";
+        ctx.lineWidth = 30;
+        ctx.fillStyle = '#f4035f';
+
+        const canvaspos = canvas.getBoundingClientRect();
+        
+        drawRects();
+        ctx.fillStyle = color;
+        ctx.globalAlpha = 0.3;
+        ctx.fillRect(sx, sy, ex-sx, ey-sy);
+        ctx.strokeRect(sx, sy, ex-sx, ey-sy);
+
+    }
+    function canvasX(clientX) {
+        var bound = canvas.getBoundingClientRect();
+        var bw = 5;
+        return (clientX - bound.left - bw) * (canvas.width / (bound.width - bw * 2));
+    }
+
+    function canvasY(clientY) {
+        var bound = canvas.getBoundingClientRect();
+        var bw = 5;
+        return (clientY - bound.top - bw) * (canvas.height / (bound.height - bw * 2));
+    }
+</script>
+<script src="{% static 'mainpage/js/mainpage.js' %}"></script>
+{% endblock%}

@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head%}
+    <link rel="stylesheet" href="{% static 'mainpage/css/mainpage.css' %}">
+    <style>
+      .mglr{
+        margin-left: 15rem;
+        margin-right: 15rem;
+      }
+    </style>
+{% endblock %}
+{% block body%}
+
+<div class="content">
+  <div>
+      <h1 class="retro">그림 네모치기 레-츠고</h1>
+      <h1 class="retro">재 미 있 읍 니 다 !</h1>
+      <img src="{% static 'mainpage/images/mainimage.jpg' %}" alt="" width="500rem">
+  </div>
+  <div class="row mglr">
+    <div class='wrapper'>
+        <div role='button' class='retro-btn danger'>
+        <a class='btn btntest' href="{% url 'taging:images' %}">
+            <span class='btn-inner'>
+            <span class='content-wrapper'>
+                <span class='btn-content'>
+                <span class='btn-content-inner' label="">
+                    <h3 class="retro middle-size-font">사물 찾기</h3>
+                    <h3 class="retro middle-size-font">BEGIN</h3>
+                </span>
+                </span>
+            </span>
+            </span>
+        </a>
+        </div>
+    </div>
+    <div class='wrapper'>
+      <div role='button' class='retro-btn warning'>
+        <a class='btn btntest' href="{% url 'boxing:menu' %}"> 
+          <span class='btn-inner'>
+            <span class='content-wrapper'>
+              <span class='btn-content'>
+                <span class='btn-content-inner' label="">
+                  <h3 class="retro middle-size-font">숨은 그림 찾기</h3>
+                  <h3 class="retro middle-size-font">BEGIN</h3>
+                </span>
+              </span>
+            </span>
+          </span>
+        </a>
+      </div>
+    </div>
+    <div class='wrapper'>
+      <div role='button' class='retro-btn success'>
+        <a class='btn btntest' href="{% url 'yesorno:yesnoinfo' %}"> 
+          <span class='btn-inner'>
+            <span class='content-wrapper'>
+              <span class='btn-content'>
+                <span class='btn-content-inner' label="">
+                  <h3 class="retro middle-size-font">YES or NO</h3>
+                  <h3 class="retro middle-size-font">BEGIN</h3>
+                </span>
+              </span>
+            </span>
+          </span>
+        </a>
+      </div>
+    </div>
+    <div class='wrapper'>
+      <div role='button' class='retro-btn info'>
+        <a class='btn btntest' href="{% url 'ranking:ranking' %}"> 
+          <span class='btn-inner'>
+            <span class='content-wrapper'>
+              <span class='btn-content'>
+                <span class='btn-content-inner' label="">
+                  <h3 class="retro middle-size-font">RANKING</h3>
+                  <h3 class="retro middle-size-font">BEGIN</h3>
+                </span>
+              </span>
+            </span>
+          </span>
+        </a>
+      </div>
+    </div>
+    <!-- <div class="col-sm-3">
+      <div class='wrapper'>
+          <div role='button' class='retro-btn warning'>
+            <a class='btn btntest' href="{% url 'boxing:menu' %}"> 
+              <span class='btn-inner'>
+                <span class='content-wrapper'>
+                  <span class='btn-content'>
+                    <span class='btn-content-inner' label="">
+                      <h3 class="retro middle-size-font">숨은 그림 찾기</h3>
+                      <h3 class="retro middle-size-font">BEGIN</h3>
+                    </span>
+                  </span>
+                </span>
+              </span>
+            </a>
+          </div>
+      </div>
+  </div>
+  <div class="col-sm-3">
+      <div class='wrapper'>
+          <div role='button' class='retro-btn success'>
+            <a class='btn btntest' href="{% url 'yesorno:yesnoinfo' %}"> 
+              <span class='btn-inner'>
+                <span class='content-wrapper'>
+                  <span class='btn-content'>
+                    <span class='btn-content-inner' label="">
+                      <h3 class="retro middle-size-font">YES or NO</h3>
+                      <h3 class="retro middle-size-font">BEGIN</h3>
+                    </span>
+                  </span>
+                </span>
+              </span>
+            </a>
+          </div>
+      </div>
+  </div>
+  <div class="col-sm-3">
+      <div class='wrapper'>
+          <div role='button' class='retro-btn info'>
+            <a class='btn btntest' href="{% url 'ranking:ranking' %}"> 
+              <span class='btn-inner'>
+                <span class='content-wrapper'>
+                  <span class='btn-content'>
+                    <span class='btn-content-inner' label="">
+                      <h3 class="retro middle-size-font">RANKING</h3>
+                      <h3 class="retro middle-size-font">BEGIN</h3>
+                    </span>
+                  </span>
+                </span>
+              </span>
+            </a>
+          </div>
+      </div>
+  </div> -->
+  </div>
+</div>
+<script src="{% static 'mainpage/js/mainpage.js' %}"></script>
+{% endblock %}

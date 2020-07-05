@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head%}
+
+{% endblock %}
+{% block body%}
+
+<div class="content">
+  <div>
+    <h1 class="retro">숨은 그림 찾기</h1>
+    <br>
+  </div>
+  <div class="row justify-content-around set">
+    <div class="col-sm-4 border teduri border-danger rounded-lg">
+      <a href="{% url 'boxing:nontag' %}">
+        <img src="{% static 'boxing/beaver.png' %}" alt="" width="300rem">
+      </a>
+    </div>
+    <div class="col-sm-4 border teduri border-warning rounded-lg">
+      <a href="{% url 'boxing:tag' %}">
+        <img src="{% static 'boxing/cheese.png' %}" alt="" width="300rem" style="margin: 0rem;">
+        <h3 class="retro">치-즈</h3>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

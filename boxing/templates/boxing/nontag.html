@@ -1,0 +1,514 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Piedra&display=swap');
+    #canvas {
+         background-image: url("{{ image.image_thumbnail.url }}");
+         background-position: center;
+         background-repeat: no-repeat;
+         background-size: contain;
+     }
+     h1{
+           text-align: center;
+     }
+     .msg{
+      font-family: 'Black Han Sans', sans-serif;
+     }
+     .hr {
+      -moz-transform: rotate(45deg);  
+      -o-transform: rotate(45deg);  
+      -webkit-transform: rotate(45deg);  
+      -ms-transform: rotate(45deg);  
+            transform: rotate(45deg); 
+      }
+      .hr2 {
+      -moz-transform: rotate(-45deg);  
+      -o-transform: rotate(-45deg);  
+      -webkit-transform: rotate(-45deg);  
+      -ms-transform: rotate(-45deg);  
+            transform: rotate(-45deg); 
+      }
+
+      @import "compass/css3";
+
+/*I just made this background and wanted to save it here*/
+#selcolor {
+  outline: none;
+  font-family: "helvetica neue" sans-serif;
+  font-size: 2em;
+  color: hsla(350, 0%, 100%, 1);
+  text-shadow: -1px -1px 1px hsla(350, 0%, 0%, 0.7),
+    1px 1px 1px hsla(350, 0%, 100%, 0.3);
+  display: block;
+  padding: 3px 10px 3px 10px;
+  cursor: pointer;
+  background-color: hsla(350, 80%, 10%, 1);
+  background-image: linear-gradient(
+    273deg,
+    hsla(350, 80%, 60%, 1) 30%,
+    hsla(350, 80%, 50%, 1) 40%
+  );
+  border: none;
+  border-radius: 16px;
+  box-shadow: inset 0px 0px 1px 1px hsla(350, 80%, 30%, 0.9),
+    inset 0px 0px 2px 3px hsla(350, 80%, 50%, 0.9),
+    inset 1px 1px 1px 4px hsla(350, 80%, 100%, 0.8),
+    inset 0px 0px 2px 7px hsla(350, 80%, 60%, 0.8),
+    inset 0px 0px 4px 10px hsla(350, 80%, 50%, 0.9),
+    8px 10px 2px 6px hsla(350, 80%, 20%, 0.55),
+    0px 0px 3px 2px hsla(350, 80%, 40%, 0.9),
+    0px 0px 2px 6px hsla(350, 80%, 50%, 0.9),
+    /*0px 0px 2px 3px hsla(350,80%,60%,0.9),*/ -1px -1px 1px 6px
+      hsla(350, 80%, 100%, 0.9),
+    /*0px 0px 2px 8px hsla(350,80%,60%,0.9),*/ 0px 0px 2px 11px
+      hsla(350, 80%, 50%, 0.9),
+    0px 0px 1px 12px hsla(350, 80%, 40%, 0.9),
+    1px 3px 14px 14px hsla(350, 80%, 0%, 0.4);
+}
+
+#selcolor:active {
+  color: hsla(350, 0%, 85%, 1);
+  padding: 3px 10px 3px 10px;
+  background-image: linear-gradient(
+    273deg,
+    hsla(350, 80%, 50%, 1) 50%,
+    hsla(350, 80%, 55%, 1) 60%
+  );
+  box-shadow: inset 3px 4px 3px 2px hsla(350, 80%, 20%, 0.55),
+    inset 0px 0px 1px 1px hsla(350, 80%, 30%, 0.9),
+    inset -1px -1px 2px 3px hsla(350, 80%, 50%, 0.9),
+    inset -2px -2px 1px 3px hsla(350, 80%, 100%, 0.8),
+    inset 0px 0px 2px 7px hsla(350, 80%, 60%, 0.8),
+    inset 0px 0px 3px 10px hsla(350, 80%, 50%, 0.9),
+    0px 0px 3px 2px hsla(350, 80%, 40%, 0.9),
+    0px 0px 2px 6px hsla(350, 80%, 50%, 0.9),
+    /*0px 0px 2px 3px hsla(350,80%,60%,0.9),*/ -1px -1px 1px 6px
+      hsla(350, 80%, 100%, 0.9),
+    /*0px 0px 2px 8px hsla(350,80%,60%,0.9),*/ 0px 0px 2px 11px
+      hsla(350, 80%, 50%, 0.9),
+    0px 0px 1px 12px hsla(350, 80%, 40%, 0.9),
+    1px 3px 14px 14px hsla(350, 80%, 0%, 0.4);
+}
+#clearone {
+  outline: none;
+  font-family: "helvetica neue" sans-serif;
+  font-size: 2em;
+  color: hsla(350, 0%, 100%, 1);
+  text-shadow: -1px -1px 1px hsla(350, 0%, 0%, 0.7),
+    1px 1px 1px hsla(350, 0%, 100%, 0.3);
+  display: block;
+  padding: 3px 10px 3px 10px;
+  cursor: pointer;
+  background-color: hsla(350, 80%, 10%, 1);
+  background-image: linear-gradient(
+    273deg,
+    rgb(85, 235, 71) 30%,
+    rgb(85, 235, 71) 40%
+  );
+  border: none;
+  border-radius: 16px;
+  box-shadow: inset 0px 0px 1px 1px rgba(100, 238, 87, 0.9),
+    inset 0px 0px 2px 3px rgba(62, 209, 48, 0.9),
+    inset 1px 1px 1px 4px hsla(130, 80%, 100%, 0.8),
+    inset 0px 0px 2px 7px rgb(85, 235, 71, 0.8),
+    inset 0px 0px 4px 10px rgba(60, 194, 48, 0.9),
+    8px 10px 2px 6px hsla(130, 80%, 20%, 0.55),
+    0px 0px 3px 2px rgb(85, 235, 71, 0.9),
+    0px 0px 2px 6px rgba(52, 230, 36, 0.9),
+    /*0px 0px 2px 3px hsla(350,80%,60%,0.9),*/ -1px -1px 1px 6px
+      hsla(130, 80%, 100%, 0.9),
+    /*0px 0px 2px 8px hsla(350,80%,60%,0.9),*/ 0px 0px 2px 11px
+    rgba(45, 167, 34, 0.9),
+    0px 0px 1px 12px rgba(52, 173, 41, 0.9),
+    1px 3px 14px 14px hsla(130, 80%, 0%, 0.4);
+}
+
+#clearone:active {
+  color: hsla(350, 0%, 85%, 1);
+  padding: 3px 10px 3px 10px;
+  background-image: linear-gradient(
+    273deg,
+    hsla(130, 80%, 50%, 1) 50%,
+    hsla(130, 80%, 55%, 1) 60%
+  );
+  box-shadow: inset 3px 4px 3px 2px hsla(130, 80%, 20%, 0.55),
+    inset 0px 0px 1px 1px hsla(130, 80%, 30%, 0.9),
+    inset -1px -1px 2px 3px hsla(130, 80%, 50%, 0.9),
+    inset -2px -2px 1px 3px hsla(130, 80%, 100%, 0.8),
+    inset 0px 0px 2px 7px hsla(130, 80%, 60%, 0.8),
+    inset 0px 0px 3px 10px hsla(130, 80%, 50%, 0.9),
+    0px 0px 3px 2px hsla(130, 80%, 40%, 0.9),
+    0px 0px 2px 6px hsla(130, 80%, 50%, 0.9),
+    /*0px 0px 2px 3px hsla(350,80%,60%,0.9),*/ -1px -1px 1px 6px
+      hsla(130, 80%, 100%, 0.9),
+    /*0px 0px 2px 8px hsla(350,80%,60%,0.9),*/ 0px 0px 2px 11px
+      hsla(130, 80%, 50%, 0.9),
+    0px 0px 1px 12px hsla(130, 80%, 40%, 0.9),
+    1px 3px 14px 14px hsla(130, 80%, 0%, 0.4);
+}
+#btnfinish {
+  outline: none;
+  font-family: "helvetica neue" sans-serif;
+  font-size: 2em;
+  color: hsla(350, 0%, 100%, 1);
+  text-shadow: -1px -1px 1px hsla(350, 0%, 0%, 0.7),
+    1px 1px 1px hsla(350, 0%, 100%, 0.3);
+  display: block;
+  padding: 3px 10px 3px 10px;
+  cursor: pointer;
+  background-color: hsla(350, 80%, 10%, 1);
+  background-image: linear-gradient(
+    273deg,
+    rgb(71, 96, 235) 30%,
+    rgb(71, 96, 235) 40%
+  );
+  border: none;
+  border-radius: 16px;
+  box-shadow: inset 0px 0px 1px 1px hsla(235, 80%, 30%, 0.9),
+    inset 0px 0px 2px 3px hsla(235, 80%, 50%, 0.9),
+    inset 1px 1px 1px 4px hsla(235, 80%, 100%, 0.8),
+    inset 0px 0px 2px 7px hsla(235, 80%, 60%, 0.8),
+    inset 0px 0px 4px 10px hsla(235, 80%, 50%, 0.9),
+    8px 10px 2px 6px hsla(235, 80%, 20%, 0.55),
+    0px 0px 3px 2px hsla(235, 80%, 40%, 0.9),
+    0px 0px 2px 6px hsla(235, 80%, 50%, 0.9),
+    /*0px 0px 2px 3px hsla(350,80%,60%,0.9),*/ -1px -1px 1px 6px
+      hsla(235, 80%, 100%, 0.9),
+    /*0px 0px 2px 8px hsla(350,80%,60%,0.9),*/ 0px 0px 2px 11px
+      hsla(235, 80%, 50%, 0.9),
+    0px 0px 1px 12px hsla(235, 80%, 40%, 0.9),
+    1px 3px 14px 14px hsla(235, 80%, 0%, 0.4);
+}
+
+#btnfinish:active {
+  color: hsla(350, 0%, 85%, 1);
+  padding: 3px 10px 3px 10px;
+  background-image: linear-gradient(
+    273deg,
+    hsla(235, 80%, 50%, 1) 50%,
+    hsla(235, 80%, 55%, 1) 60%
+  );
+  box-shadow: inset 3px 4px 3px 2px hsla(235, 80%, 20%, 0.55),
+    inset 0px 0px 1px 1px hsla(235, 80%, 30%, 0.9),
+    inset -1px -1px 2px 3px hsla(235, 80%, 50%, 0.9),
+    inset -2px -2px 1px 3px hsla(235, 80%, 100%, 0.8),
+    inset 0px 0px 2px 7px hsla(235, 80%, 60%, 0.8),
+    inset 0px 0px 3px 10px hsla(235, 80%, 50%, 0.9),
+    0px 0px 3px 2px hsla(235, 80%, 40%, 0.9),
+    0px 0px 2px 6px hsla(235, 80%, 50%, 0.9),
+    /*0px 0px 2px 3px hsla(350,80%,60%,0.9),*/ -1px -1px 1px 6px
+      hsla(235, 80%, 100%, 0.9),
+    /*0px 0px 2px 8px hsla(350,80%,60%,0.9),*/ 0px 0px 2px 11px
+      hsla(235, 80%, 50%, 0.9),
+    0px 0px 1px 12px hsla(235, 80%, 40%, 0.9),
+    1px 3px 14px 14px hsla(235, 80%, 0%, 0.4);
+}
+
+@import url(http://fonts.googleapis.com/css?family=Archivo+Narrow:700);
+/*Thick font*/
+@import url(http://fonts.googleapis.com/css?family=Shadows+Into+Light+Two);
+/*Script font*/
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300italic);
+/*Reading font*/
+
+
+.top-left-triangle {
+  width: 0;
+  height: 0;
+  border-top: 39px solid #8a0d0d;
+  border-right: 39px solid transparent;
+  position: relative;
+  bottom: 673px;
+  left: 985px;
+  z-index: -1;
+}
+
+.top-right-triangle {
+  width: 0;
+  height: 0;
+  border-top: 40px solid #8a0d0d;
+  border-left: 40px solid transparent;
+  position: relative;
+  bottom: 670px;
+  left: 80px;
+  z-index: -1;
+}
+
+.bottom-left-triangle {
+  width: 0;
+  height: 0;
+  border-right: 37px solid transparent;
+  border-bottom: 37px solid #8c94a04b;
+  position: relative;
+  bottom: 217px;
+  left: 907px;
+  z-index: -1;
+}
+
+.bottom-right-triangle {
+  width: 0;
+  height: 0;
+  border-bottom: 40px solid #8c94a04b;
+  border-left: 40px solid transparent;
+  position: relative;
+  bottom: 220px;
+  z-index: -1;
+}
+
+
+
+  </style>
+  <title>Document</title>
+{% endblock %}
+{% block containerbody %}
+<div class="container" style="text-align: center;">
+      <div class="row">
+            <div class="col-sm-10" style="height: 75px; margin: auto; background-color: rgb(233, 38, 119); border-left: 10px solid yellow; border-right: 10px solid yellow;">
+                  <h1 class="retro" style="margin-top: 5px;">박스!!</h1>
+            </div>
+      </div>
+      <div class="row">
+            <div style="border: 1px solid #000; width:50px; height:35px; margin-left: 90px;">
+                  <div class="hr" style="border-top:10px solid yellow; height:55px; margin-left:-10px; position: relative; top: 5px; right: 12px; z-index: 1;"></div>
+            </div>
+            <div class="col-sm-9" style="height: 35px; background-color: #8a0d0d; width: 980px;"></div>
+            <div style="border: 1px solid #000; width:50px; height:35px;">
+                  <div class="hr2" style="border-top:10px solid yellow; height:55px; margin-left:-10px; position: relative; top: 5px; left: 19px; z-index: 1;"></div>
+            </div>
+      </div>
+      <div class="row">
+            <div class="col-50"  style="margin-left: 90px; height: 420px; background-color: #0f0f1c; width: 50px; border-right: 10px solid yellow;"></div>
+            <div class="col-sm-9" style="text-align: center; height: 420px;  background-color: #8c94a04b; padding-top: 10px; padding-bottom: 10px; width: 980px;">
+                  <div style="background-color: black; padding-top: 5px;">
+                        <canvas id="canvas" width="600" height="400">
+                              이 브라우저는 캔버스를 지원하지 않습니다.
+                        </canvas>
+                  </div>
+            </div>
+            <div class="col-50"  style="height: 420px; background-color: #0f0f1c; width: 50px; border-left: 10px solid yellow;"></div>
+      </div>
+      <div class="row">
+            <div style="margin-left: 90px; border: 1px solid #000; width:50px; height:35px;">
+                  <div class="hr2" style="border-top:10px solid yellow; height:55px; margin-left:-10px; position: relative; top: 5px; left: 19px; z-index: 1;"></div>
+            </div>
+            <div class="col-sm-9" style="height: 35px; background-color: #8c94a04b; width: 980px;"></div>
+            <div style="border: 1px solid #000; width:50px; height:35px;">
+                  <div class="hr" style="border-top:10px solid yellow; height:55px; margin-left:-10px; position: relative; top: 5px; right: 9px; z-index: 1;"></div>
+            </div>
+      </div>
+      <div class="row">
+            <div class="col-sm-10 row" style="height: 180px; margin: auto; background-color: #8c94a0c4; border-left: 10px solid yellow; border-right: 10px solid yellow;">
+                  <div>
+                        <img src="{% static 'boxing/joystick.png' %}" alt="" width="150px" height="150px" style="position: relative; bottom: 50px; left: 100px;">
+                  </div>
+                  <div>
+                        <div class="row" style="width: 600px; height: 80px;">
+                              <button style="margin: auto;" id="selcolor">색상바꾸기</button>
+                        </div>
+                        <div class="row" style="width: 600px; margin-top: 20px;">
+                              <div class="col-sm-4" style="margin-left: 140px;">
+                                    <button id="clearone">지우개</button>
+                              </div>
+                              <div class="col-sm-4">
+                                    <form action="" method="POST" id="submit">
+                                          {% csrf_token %}
+                                          <input id="btnfinish" type="submit" value="제출"/>
+                                    </form>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</div>
+<div class="row">
+      <div class="top-left-triangle"></div>
+      <div class="top-right-triangle"></div>
+      <div class="bottom-left-triangle"></div>
+      <div class="bottom-right-triangle"></div>
+</div>
+<script>
+
+  var canvas;
+  var ctx;
+  var arRectangle = new Array();
+  var sx, sy;                  // 드래그 시작점
+  var ex, ey;                  // 드래그 끝점
+  var color;               // 현재 색상
+  var drawing;                // 그리고 있는 중인가
+  var moving = -1;              // 이동중인 도형 첨자
+  var arrPosition = new Array();
+  var colorList = new Array("rgba(255,255,0,0.5)","rgba(255,0,0,0.3)","rgba(0,255,0,0.3)","rgba(0,0,255,0.4)");
+  // 사각형 생성자
+  function Rectangle(sx, sy, ex, ey, color) {
+        this.sx = sx;
+        this.sy = sy;
+        this.ex = ex;
+        this.ey = ey;
+        this.color = color;
+  }
+  // x, y 위치의 사각형 찾음. 없으면 -1
+  function getRectangle(x, y) {
+        for (var i = 0;i < arRectangle.length;i++) {
+            var rect = arRectangle[i];
+            if (x > rect.sx && x < rect.ex && y > rect.sy && y < rect.ey) {
+                  return i;
+            }
+        }
+        return -1;
+  }
+
+
+
+  // 화면 지우고 모든 도형을 순서대로 다 그림
+  function drawRects() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (var i = 0;i < arRectangle.length;i++) {
+            var r = arRectangle[i];
+            ctx.fillStyle = r.color;
+            ctx.fillRect(r.sx, r.sy, r.ex-r.sx, r.ey-r.sy);
+            ctx.strokeRect(r.sx, r.sy, r.ex-r.sx, r.ey-r.sy);
+        }
+  }
+  window.onload = function() {
+        canvas = document.getElementById("canvas");
+        if (canvas == null || canvas.getContext == null) return;
+        ctx = canvas.getContext("2d");
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+        color = "rgba(255, 255, 0, 0.5)"
+        ctx.fillStyle = color;
+        
+
+        canvas.onmousedown = function(e) {
+            e.preventDefault();
+
+            
+
+            // 클릭한 좌표 구하고 그 위치에 도형이 있는지 조사
+            sx = canvasX(e.clientX);
+            sy = canvasY(e.clientY);
+            //moving = getRectangle(sx, sy);
+
+            // 도형을 클릭한 것이 아니면 그리기 시작
+
+            if (moving == -1) {
+                  drawing = true;
+            }
+
+        }
+
+      
+
+        canvas.onmousemove = function(e) {
+            e.preventDefault();
+            ex = canvasX(e.clientX);
+            ey = canvasY(e.clientY);
+
+            // 화면 다시 그리고 현재 도형 그림
+
+            if (drawing) {
+                  drawRects();
+                  ctx.fillStyle = color;
+                  ctx.fillRect(sx, sy, ex-sx, ey-sy);
+                  ctx.strokeRect(sx, sy, ex-sx, ey-sy);
+            }
+
+            
+
+            // 상대적인 마우스 이동 거리만큼 도형 이동
+
+            // if (moving != -1) {
+            //       var r = arRectangle[moving];
+            //       r.sx += (ex - sx);
+            //       r.sy += (ey - sy);
+            //       r.ex += (ex - sx);
+            //       r.ey += (ey - sy);
+            //       sx = ex;
+            //       sy = ey;
+            //       drawRects();
+            // }
+
+        }
+
+      
+
+        canvas.onmouseup = function(e) {
+
+            // 좌표 정규화해서 새로운 도형을 배열에 추가
+
+            if (drawing) {
+                  var x1 = Math.min(sx, ex);
+                  var y1 = Math.min(sy, ey);
+                  var x2 = Math.max(sx, ex);
+                  var y2 = Math.max(sy, ey);
+                  arRectangle.push(new Rectangle(x1, y1, x2, y2,color));
+                  arrPosition.push(x1+'/'+y1 +'/'+x2+'/'+y2);
+            }
+            drawing = false;
+            moving = -1;
+
+        }            
+
+  }
+
+
+
+  var selcolor = document.getElementById("selcolor");
+  selcolor.onclick = function(e){
+      color = randomItem(colorList)
+  }
+
+  var btnclearone = document.getElementById("clearone");
+
+  btnclearone.onclick = function(e) {
+
+        arRectangle.pop();
+        arrPosition.pop();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawRects();
+
+  }
+
+  function randomItem(a) {
+        return a[Math.floor(Math.random()*a.length)];
+  }
+
+
+  function canvasX(clientX) {
+
+        var bound = canvas.getBoundingClientRect();
+        var bw = 5;
+        return (clientX - bound.left - bw) * (canvas.width / (bound.width - bw * 2));
+  }
+
+
+
+  function canvasY(clientY) {
+
+        var bound = canvas.getBoundingClientRect();
+        var bw = 5;
+        return (clientY - bound.top - bw) * (canvas.height / (bound.height - bw * 2));
+
+  }
+
+  document.querySelector('#submit').addEventListener('submit', function(event) {
+        event.preventDefault()
+        console.log(arrPosition)
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        arRectangle.length = 0;
+        const data = new FormData()
+        data.append('position', arrPosition)
+        console.log(data)
+        axios.defaults.xsrfCookieName = 'csrftoken';
+        axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+        axios.post('/boxing/save_position/{{ image.pk }}/', data)
+            .then(data => {
+                  console.log(data)
+                  location.href="/boxing/non_tag/"
+            })
+  })
+  </script>
+  <script type="text/javascript" src="../../static/js/panicButton.js"></script>
+{% endblock %}

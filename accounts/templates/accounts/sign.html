@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head%}
+<link rel="stylesheet" href="../../static/scss/sign.css">
+<script src="https://code.jquery.com/jquery-2.2.1.js"></script>
+{% endblock %}
+{% block body%}
+  <div id="back">
+    <canvas id="canvas" class="canvas-back"></canvas>
+    <div class="backRight">    
+    </div>
+    <div class="backLeft">
+    </div>
+  </div>
+  <div id="slideBox">
+    <div class="topLayer">
+      
+      <div class="left">
+        <div class="content">
+          <h1 class="retro">싸-인 업</h2>
+          <form id="form-signup" method="post" action="{% url 'accounts:signup' %}">
+            {% csrf_token %}
+            {% for field in signupform %}
+              {% if field.name == 'job' or field.name == 'birth' or field.name == 'phone' %}
+              {% else %}
+                <div class="form-element form-stack">
+                  {{ field.errors }}
+                  {{ field.label_tag }} 
+                  {{ field }}
+                </div>
+              {% endif %}
+            {% endfor %}
+            <div class="form-element form-submit" style="position: relative;">
+              <button id="signUp" class="button lb retro small" type="submit" name="signup">싸-인 업</button>
+              <a id="goLeft" class="button lb retro small" style="position: absolute;">로-그인</a> 
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <div class="right">
+        <div class="content">
+          <h1 class="retro">로-그인</h2>
+          <form id="form-login" method="post" action="{% url 'accounts:login' %}" >
+            {% csrf_token %}
+            {% for field in loginform %}
+            <div class="form-element form-stack">
+              {{ field.errors }}
+              {{ field.label_tag }} 
+              {{ field }}
+            </div>
+            {% endfor %}
+            <div class="form-element form-submit" style="position: relative;">
+              <button id="login" class="button rb retro small" type="submit" name="login">로-그인</button>
+              <a id="goRight" class="button rb retro small" name="signup" style="position: absolute;">싸-인 업</a>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <script type="text/javascript" src="../../static/js/sign.js"></script>
+  <script>
+    const labels = document.querySelectorAll('label')
+    labels[0].innerText = '전자우편:'
+    labels[1].innerText = '이용자 ID:'
+    labels[4].innerText = '이용자 ID:'
+  </script>
+  {% endblock %}
